@@ -1,31 +1,23 @@
-import React, { useReducer } from 'react';
-import './style.css';
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'Increment':
-      return { count: state.count + 1, text: state.text };
-    case 'ToggleShow':
-      return { count: state.count + 1, text: state.text };
-    default:
-      return state;
-  }
-};
-const App = () => {
-  let [state, dispatch] = useReducer(reducer, { count: 0, text: true });
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
+import './style.css';
+
+function App() {
+  const [data, setData] = useState('');
+  useEffect(() => {
+    axios
+      .get('https://jsonplaceholder.typicode.com/comments')
+      .then((response) => {
+        setData(response.data[0].email);
+        console.log('its working');
+      });
+  }, []);
   return (
     <div>
-      {state.count} <br />
-      <button
-        onClick={() => {
-          dispatch({ type: 'ToggleShow' });
-        }}
-      >
-        increment
-      </button>
-      {state.text && <p>text is empty</p>}
+      <h1>mani</h1>
+      <h2>hello {data}</h2>
     </div>
   );
-};
-
+}
 export default App;
